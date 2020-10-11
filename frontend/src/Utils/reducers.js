@@ -1,43 +1,22 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
-// import userReducer from '../StaticWebsite/Auth/userReducer';
+import authReducer from '../PublicWeb/Auth/userReducer';
 
-// import vehicleReducer from '../Components/SearchTrip/vehicleReducer';
-// import routeReducer from '../Components/SearchTrip/routeReducer';
-// import employeeReducer from '../Components/SearchTrip/employeeReducer';
-
-// import personnelReducer from '../Components/TripSearches/personnelReducer';
-// import documentsReducer from '../Components/TripSearches/documentsReducer';
-// import positionsReducer from '../Components/TripSearches/positionsReducer';
-// import holidaysReducer from '../Components/TripSearches/holidaysReducer';
-
-// // import postsReducer from '../Components/Trips/postsReducer';
-// import warehouseReducer from '../Components/User/warehouseReducer';
-// import UsersReducer from '../Components/AdminData/usersReducer';
-// import profileReducer from '../Components/User/profileReducer';
-// // import providerReducer from '../Components/Trips/providerReducer';
+import vehicleReducer from '../PrivateWeb/Vehicle/vehicleReducer';
+import userReducer from '../PrivateWeb/User/userReducer';
+import keyReducer from '../PrivateWeb/APIKeys/apiKeyReducer';
 
 const reducer = combineReducers({
     form: formReducer,
 
-    // user: userReducer,
+    auth: authReducer,
 
-    // vehicle: vehicleReducer,
-    // route: routeReducer,
-    // reviews: employeeReducer,
-    
-    // // posts: postsReducer,
-    // // providers: providerReducer,
-    // cars: warehouseReducer,
-    // users: UsersReducer,
+    vehicle: vehicleReducer,
 
-    // profile: profileReducer,
-    
-    // personnel: personnelReducer,
-    // searchResults: documentsReducer,
-    // positions: positionsReducer,
-    // tripSearches: holidaysReducer
+    user: userReducer,
+
+    key: keyReducer,
 });
 
 export default reducer;

@@ -4,11 +4,16 @@ import { Route } from 'react-router-dom';
 import { StaticNav } from './navigation';
 
 import Index from './Index/index';
-const StaticLayout = () => (
+import Login from './Auth/Login';
+
+const publicWeb = () => (
   <div>
     <StaticNav />
-    <Route exact path={'/'} component={Index} />
+    <div style={{paddingTop: 50}}>
+      <Route exact path={'/'} component={Index} />
+      <Route exact path={'/login'} component={Login} />
+    </div>
   </div>
 );
 
-export default StaticLayout;
+export default publicWeb;
