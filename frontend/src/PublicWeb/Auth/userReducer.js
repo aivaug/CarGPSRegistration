@@ -1,7 +1,8 @@
 import {
     LOG_IN,
     LOG_OFF,
-    LOG_IN_FAILURE
+    LOG_IN_FAILURE,
+    VERIFICATION_FAILURE
   } from '../actions'
   
   const INITIAL_STATE = { isAuthenticated: false, error: '' }
@@ -20,6 +21,11 @@ import {
           error: '',
         }
       case LOG_IN_FAILURE:
+        return {
+          ...state,
+          error,
+        }
+      case VERIFICATION_FAILURE:
         return {
           ...state,
           error,

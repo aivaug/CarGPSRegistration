@@ -13,7 +13,7 @@ const publicWeb = () => (
     <div style={{paddingTop: 50}}>
       <Route exact path={'/'} component={Index} />
       <Route exact path={'/login'} component={Login} />
-      <Route path={'/Verification'} component={Verification} />
+      <Route path={'/verification'} component={Verification} />
     </div>
   </div>
 );
