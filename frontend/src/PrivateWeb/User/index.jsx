@@ -11,9 +11,7 @@ class Users extends React.Component {
     this.state = {
       data: [],
       modal: false,
-      deletableId: null,
-      dataImportsRun: false,
-      importMessage: ''
+      deletableId: null
     };
   }
   componentDidMount() {
@@ -113,7 +111,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (store) => {
   return {
-    users: store.user
+    users: store.user.data
   }
 };
 

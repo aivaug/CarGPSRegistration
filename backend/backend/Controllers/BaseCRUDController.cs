@@ -9,11 +9,10 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class BaseCRUDController<T, IDType> : ControllerBase
             where T : BaseEntity<IDType>
     {
-        private readonly IBaseService<T, IDType> _service;
+        protected readonly IBaseService<T, IDType> _service;
 
         public BaseCRUDController(IBaseService<T, IDType> service)
         {

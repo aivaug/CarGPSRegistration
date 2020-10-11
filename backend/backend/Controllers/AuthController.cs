@@ -11,11 +11,11 @@ namespace backend.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private IAuthService _userService;
+        private IAuthService _authService;
 
-        public AuthController(IAuthService userService)
+        public AuthController(IAuthService authService)
         {
-            _userService = userService;
+            _authService = authService;
         }
 
         [HttpPost("authenticate")]
@@ -23,7 +23,7 @@ namespace backend.Controllers
         {
             try
             {
-                var user = await _userService.Authenticate(userParam);
+                var user = await _authService.Authenticate(userParam);
 
                 if (user == null)
                     return BadRequest(new Message { MessageSource = "login", MessageText = "User not found" });
@@ -36,12 +36,24 @@ namespace backend.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult GetProfile()
+        [HttpPost("verify/{verificationKey}")]
+        public async Task<IActionResult> Verify([FromBody] UserLoginDTO userParam, string verificationKey)
         {
             try
             {
-               return Ok("asdasdas");
+                if (_authService.VerificationIsValid(verificationKey))
+                {
+                    var user = await _authService.Authenticate(userParam);
+
+                    if (user == null)
+                        return BadRequest(new Message { MessageSource = "login", MessageText = "User not found" });
+
+                    return Ok(user);
+                }
+                else
+                {
+                    return BadRequest(new Message { MessageSource = "verify", MessageText = "Verification key used already" });
+                }
             }
             catch (Exception e)
             {

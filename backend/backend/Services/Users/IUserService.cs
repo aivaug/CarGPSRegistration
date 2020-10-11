@@ -7,5 +7,6 @@ namespace backend.Services.Users
     public interface IUserService : IBaseService<User, int>
     {
         Task<User> SetActiveStatus(int UserId, bool IsActive);
+        Task<bool> EmailAlreadyExists(string email);
     }
 }

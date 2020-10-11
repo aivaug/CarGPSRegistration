@@ -1,5 +1,6 @@
 import {api} from '../../Utils/api';
 import history from '../../Utils/history';
+import { USER_CREATE_EXISTS } from "../../PublicWeb/actions"
 
 export const fetchUsersData = () => dispatch => {
   api.get('api/user',  {
@@ -41,7 +42,10 @@ export const CreateNewUser = (data) => dispatch => {
     .then(response => {
       history.push(`/pr/users`);
     })
-    .catch(function () {
-      // add logic for handling errors in the future
-    });
+    .catch((err) => {
+      dispatch({
+        type: USER_CREATE_EXISTS,
+        error: err.response.data
+      })
+  });
 }

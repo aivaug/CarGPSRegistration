@@ -1,10 +1,6 @@
 import {
-    AUTH_USER,
-    UNAUTH_USER,
-    UPDATE_USER_DATA,
     LOG_IN,
     LOG_OFF,
-    REGISTER_FAILURE,
     LOG_IN_FAILURE
   } from '../actions'
   
@@ -12,18 +8,6 @@ import {
   
   export default (state = INITIAL_STATE, { type, user, error }) => {
     switch (type) {
-      case AUTH_USER:
-        return {
-          ...state,
-          isAuthenticated: true,
-          error: '',
-        }
-      case UNAUTH_USER:
-        return {
-          ...state,
-          isAuthenticated: false,
-          error: '',
-        }
       case LOG_IN:
         return {
           ...state,
@@ -34,17 +18,6 @@ import {
         return {
           isAuthenticated: false,
           error: '',
-        }
-      case UPDATE_USER_DATA:
-        return {
-          ...state,
-          ...user,
-          error: '',
-        }
-      case REGISTER_FAILURE:
-        return {
-          ...state,
-          error,
         }
       case LOG_IN_FAILURE:
         return {

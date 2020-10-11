@@ -42,6 +42,11 @@ namespace backend.Services.Users
             return null;
         }
 
+        public async Task<bool> EmailAlreadyExists(string email)
+        {
+            return await _context.Users.AnyAsync(x => x.Email != email);
+        }
+
         public async Task<List<User>> GetAll()
         {
             return await _context.Users.Where(x => !x.IsDeleted).ToListAsync();
