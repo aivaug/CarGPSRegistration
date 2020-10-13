@@ -37,22 +37,22 @@ namespace backend.Controllers
         }
 
         [HttpPost("verify/{verificationKey}")]
-        public async Task<IActionResult> Verify([FromBody] UserLoginDTO userParam, string verificationKey)
+        public async Task<IActionResult> Verify([FromBody] UserVerificationDTO verificationModel, string verificationKey)
         {
             try
             {
                 if (_authService.VerificationIsValid(verificationKey))
                 {
-                    var user = await _authService.Authenticate(userParam);
+                    var user = await _authService.SetPassword(verificationKey, verificationModel.Password);
 
                     if (user == null)
-                        return BadRequest(new Message { MessageSource = "login", MessageText = "User not found" });
+                        return BadRequest("User not found");
 
                     return Ok(user);
                 }
                 else
                 {
-                    return BadRequest(new Message { MessageSource = "verify", MessageText = "Verification key used already" });
+                    return BadRequest("Verification key not valid");
                 }
             }
             catch (Exception e)

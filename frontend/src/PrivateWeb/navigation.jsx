@@ -57,11 +57,6 @@ class Navigation extends React.Component {
           </NavbarNav>
           <NavbarNav right>
           <NavItem> 
-            <span className="nav-item" onClick={()=>this.onClick()}>
-                <NavLink to="/pr/profile" ><MDBIcon icon="user" /></NavLink>
-            </span>
-          </NavItem>
-          <NavItem> 
             <span className="nav-item" onClick={()=>this.LogOff()}>
                 <NavLink to="/login" ><MDBIcon icon="sign-out-alt" /></NavLink>
             </span>

@@ -1,4 +1,5 @@
-﻿using backend.Models.UsersEntities;
+﻿using backend.DTO.User;
+using backend.Models.UsersEntities;
 using backend.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,25 @@ namespace backend.Controllers
                     return BadRequest(new { message = "Email already exists" });
                 }
 
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("settings/{id}")]
+        public async Task<IActionResult> Update([FromBody] UserSettingsChangeDTO obj, int id)
+        {
+            try
+            {
+                if (id <= 0) return BadRequest(new { message = "ID must be positive" });
+                var returnObj = await (_service as IUserService).UpdateSettings(obj, id);
+
+                if (returnObj == null)
+                    return BadRequest(new { message = "Object not valid" });
+
+                return Ok(await _service.GetAll());
             }
             catch (Exception e)
             {

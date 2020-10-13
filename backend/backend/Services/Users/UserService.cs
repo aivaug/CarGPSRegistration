@@ -1,4 +1,7 @@
-﻿using backend.Helpers;
+﻿using backend.DTO.User;
+using backend.Helpers;
+using backend.Helpers.UserSettingsChange;
+using backend.Helpers.UserSettingsChange.SettingChangeTypes;
 using backend.Models;
 using backend.Models.UsersEntities;
 using Hangfire;
@@ -44,7 +47,7 @@ namespace backend.Services.Users
 
         public async Task<bool> EmailAlreadyExists(string email)
         {
-            return await _context.Users.AnyAsync(x => x.Email != email);
+            return await _context.Users.AnyAsync(x => x.Email == email && !x.IsDeleted);
         }
 
         public async Task<List<User>> GetAll()
@@ -80,6 +83,29 @@ namespace backend.Services.Users
                 {
                     user.Password = PasswordHelper.HashPassword(obj.Password + "99f6c330-c7c5-410f-b257-54c85745191c");
                 }
+                await _context.SaveChangesAsync();
+                return user;
+            }
+            return null;
+        }
+
+        public async Task<User> UpdateSettings(UserSettingsChangeDTO setting, int id)
+        {
+            User user = _context.Users.FirstOrDefault(x => x.Id == id);
+            if(user != null)
+            {
+                switch (setting.ChangeType)
+                {
+                    case "Role":
+                        user.Changes = new RoleChanges();
+                        break;
+                    case "Activation":
+                        user.Changes = new ActivationChanges();
+                        break;
+                    default:
+                        return null;
+                }
+                user.RunChanges();
                 await _context.SaveChangesAsync();
                 return user;
             }

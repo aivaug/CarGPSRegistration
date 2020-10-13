@@ -7,11 +7,11 @@ import Form, { Section, Password, SubmitButton } from '../Utils/Form';
 
 const Verification = ({ Verification, error }) => (
   <div style={{paddingTop: '70px'}}>
-     <RenderIf isTrue={error.messageSource === 'verify'}>
+     <RenderIf isTrue={error !== ""}>
        <div style={{paddingBottom: '20px'}}>
           <div className="container card text-white" style={{width: '420px'}} role="alert">
             <header style={{margin: 'auto'}}>
-            {error.messageText}
+            {error}
             </header>
           </div>
         </div>

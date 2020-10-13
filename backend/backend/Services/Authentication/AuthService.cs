@@ -1,6 +1,7 @@
 ﻿using backend.DTO.User;
 using backend.Helpers;
 using backend.Models;
+using backend.Models.UsersEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -20,7 +21,7 @@ namespace backend.Services.Authentication
 
         public AuthService(IOptions<AppSettings> appSettings, DatabaseContext dbContext)
         {
-            if (appSettings != null) _appSettings = appSettings.Value;
+            _appSettings = appSettings.Value;
             _context = dbContext;
         }
 
@@ -53,14 +54,29 @@ namespace backend.Services.Authentication
             return new UserTokenDTO
             {
                 Token = tokenHandler.WriteToken(token),
-                Role = user.Role
+                Role = user.Role,
+                Email = user.Email
             };
+        }
+
+        public async Task<User> SetPassword(string key, string password)
+        {
+            User user = _context.Users.FirstOrDefault(x => x.VerificationCode == key && x.VerificationValid);
+            if(user != null)
+            {
+                user.Password = PasswordHelper.HashPassword(password + _appSettings.Salt);
+                user.VerificationValid = false;
+                await _context.SaveChangesAsync();
+                return user;
+            }
+            return null;
         }
 
         public bool VerificationIsValid(string key)
         {
             return _context.Users.Any(x => x.VerificationCode == key
-                                        && !x.IsActive);
+                                        && x.IsActive
+                                        && x.VerificationValid);
         }
     }
 }

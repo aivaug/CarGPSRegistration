@@ -32,6 +32,21 @@ export const deleteUserData = (id) => dispatch => {
     });
 }
 
+export const changeSettings = (id, settingsToChange) => dispatch => {
+  api
+    .put("api/user/settings/"+id, {
+      ChangeType: settingsToChange
+    }, {
+      headers: { Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token },
+    })
+    .then(response => {
+      history.push(`/pr/users`);
+    })
+    .catch(function () {
+      // add logic for handling errors in the future
+    });
+}
+
 export const CreateNewUser = (data) => dispatch => {
     api
     .post("api/user", {

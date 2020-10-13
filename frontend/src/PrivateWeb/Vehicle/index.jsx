@@ -78,14 +78,26 @@ class Vehicles extends React.Component {
                 sort: 'asc',
               },
               {
+                label: 'Locations',
+                field: 'locations',
+                sort: 'asc',
+              },
+              {
                 field: 'actions',
                 width: 5,
               },
             ],
              rows: this.props.vehicles.map(d => ({
               vehicleBrandName: d.brand,
-              vehicleModelName: d.brand,
+              vehicleModelName: d.model,
               vehicleYearManufactured: d.yearManufactured,
+              locations:(
+                <React.Fragment>
+                <Link to={"/pr/vehicleEdit/" + d.id} style={{color: '#ffff'}}>
+                    Show locations data
+                </Link> 
+              </React.Fragment>
+              ),
               actions: (
                 <React.Fragment>
                   <Link to={"/pr/vehicleEdit/" + d.id}>

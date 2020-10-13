@@ -7,7 +7,7 @@ import Form, { Section, Input, Password, SubmitButton } from '../Utils/Form';
 
 const Login = ({ LoginPress, error }) => (
   <div style={{paddingTop: '70px'}}>
-     <RenderIf isTrue={error.messageSource === 'login'}>
+     <RenderIf isTrue={error === 'login'}>
        <div style={{paddingBottom: '20px'}}>
           <div className="container card text-white" style={{width: '420px'}} role="alert">
             <header style={{margin: 'auto'}}>

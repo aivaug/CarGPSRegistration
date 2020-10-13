@@ -36,6 +36,9 @@ class Users extends React.Component {
       }))
     this.props.deleteUserData(id);
   }
+  ChangeUserSettings(id, changeType) {
+    this.props.changeSettings(id, changeType);
+  }
   render() {
     return (
       <div className="ListViewCSS">
@@ -81,20 +84,46 @@ class Users extends React.Component {
                 sort: 'asc',
               },
               {
+                label: 'Role',
+                field: 'role',
+                sort: 'asc',
+              },
+              {
                 field: 'actions',
-                width: 5,
+                width: 2,
               },
             ],
              rows: this.props.users.map(d => ({
               firtName: d.firstName,
               lastName: d.lastName,
               email: d.email,
-              isActive: d.isActive ? "Yes" : "No",
+              role: (
+                <React.Fragment>
+                  {d.email !== JSON.parse(localStorage.getItem('user')).email ? 
+                 <button onClick={() => this.ChangeUserSettings(d.id, 'Role')} >
+                     {d.role ? "Upgrade to admin" : "Downgrade to user"}
+                 </button>
+                 : 'Yes'}
+               </React.Fragment>
+             ),
+              isActive: (
+                 <React.Fragment>
+                   {d.email !== JSON.parse(localStorage.getItem('user')).email ? 
+                  <button onClick={() => this.ChangeUserSettings(d.id, 'Activation')} >
+                      {d.isActive ? "Deactivate" : "Activate"}
+                  </button>
+                  : 'Yes'}
+                </React.Fragment>
+              ),
               actions: (
                 <React.Fragment>
-                   <button onClick={() => this.deleteUser(d.id)}>
-                    <i className="fas fa-trash-alt" />
-                  </button>
+                  {d.email !== JSON.parse(localStorage.getItem('user')).email ? 
+                  <div>
+                    <button onClick={() => this.deleteUser(d.id)} className="btn-danger">
+                      <i className="fas fa-trash-alt" />
+                    </button>
+                  </div>
+                : ''}
                 </React.Fragment>
               )
             }))
